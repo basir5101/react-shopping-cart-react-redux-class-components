@@ -1,4 +1,5 @@
 import React from 'react';
+import Cart from './Components/Cart';
 import Filter from './Components/Filter';
 import Products from './Components/Products';
 import data from './data.json';
@@ -12,8 +13,32 @@ class App extends React.Component {
       products: data.products,
       size: "",
       sort: "",
+      cartItems: [],
     }
   };
+
+  removeFromCart = product =>{
+    const cartItems = this.state.cartItems.slice();
+    this.setState({
+      cartItems: cartItems.filter (x => x._id !== product._id)
+    })
+  }
+  addToCart = product =>{
+    const cartItems = this.state.cartItems.slice();
+    let alreadyInCart = false;
+    cartItems.forEach(item =>{
+      if(item._id === product._id){
+        item.count++;
+        alreadyInCart = true;
+      }
+    })
+    if(!alreadyInCart){
+      cartItems.push({...product, count: 1})
+    }
+    this.setState({cartItems})
+  }
+
+  
   sortProducts = (event) => {
     console.log(event.target.value)
     const sort = event.target.value;
@@ -36,30 +61,7 @@ class App extends React.Component {
     ),
   }));
   };
-
-  // sortProducts = (event) => {
-  //   // impl
-  //   const sort = event.target.value;
-  //   console.log(event.target.value);
-  //   this.setState((state) => ({
-  //     sort: sort,
-  //     products: this.state.products
-  //       .slice()
-  //       .sort((a, b) =>
-  //         sort === "lowest"
-  //           ? a.price > b.price
-  //             ? 1
-  //             : -1
-  //           : sort === "highest"
-  //           ? a.price < b.price
-  //             ? 1
-  //             : -1
-  //           : a._id < b._id
-  //           ? 1
-  //           : -1
-  //       ),
-  //   }));
-  // };
+ 
   filterProducts = (event) =>{
     console.log(event.target.value)
     if(event.target.value === ""){
@@ -90,10 +92,10 @@ class App extends React.Component {
                 filterProducts = {this.filterProducts}
                 sortProducts = {this.sortProducts}
                 />
-                <Products product = {this.state.products} />
+                <Products addToCart = {this.addToCart} product = {this.state.products} />
               </div>
               <div className="sidebar">
-                sidebar
+                <Cart removeFromCart = {this.removeFromCart} cartItems = {this.state.cartItems} />
               </div>
             </div>
           </main>
