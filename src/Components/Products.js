@@ -4,7 +4,6 @@ import formatCurrency from '../utill';
 
 class Products extends Component {
     render() {
-        console.log(this.props)
         return (
             <div>
                 <ul className = 'products'>
