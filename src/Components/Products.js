@@ -5,12 +5,14 @@ import Modal from 'react-modal';
 import Zoom from 'react-reveal/Zoom';
 
 
+
 class Products extends Component {
     constructor(props){
         super(props);
         this.state = {
             product: null,
         }
+
     }
     openModal = product =>{
         this.setState({ product });
@@ -82,4 +84,4 @@ class Products extends Component {
     }
 }
 
-export default Products;
+export default connect((state) => ({products: state.products.items}), {fetchProducts})(Products);
