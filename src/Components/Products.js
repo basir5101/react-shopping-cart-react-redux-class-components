@@ -3,8 +3,7 @@ import formatCurrency from '../utill';
 import Fade from 'react-reveal/Fade';
 import Modal from 'react-modal';
 import Zoom from 'react-reveal/Zoom';
-import { connect } from 'react-redux';
-import {fetchProducts} from '../actions/productActions'
+
 
 
 class Products extends Component {
@@ -13,9 +12,7 @@ class Products extends Component {
         this.state = {
             product: null,
         }
-    };
-    componentDidMount() {
-        this.props.fetchProducts();
+
     }
     openModal = product =>{
         this.setState({ product });
